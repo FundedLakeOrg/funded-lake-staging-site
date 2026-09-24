@@ -14,7 +14,7 @@ function ChooseUs() {
       id: 1,
       icon: <DollarSign size={40} className="text-cyan-500" />,
       fimg: featureImg1,
-      title: "INSTANT FUNDING",
+      title: "INSTANT FUNDING Test",
       desc: "Get access to capital and start trading immediately with no waiting, no delays.",
     },
     {

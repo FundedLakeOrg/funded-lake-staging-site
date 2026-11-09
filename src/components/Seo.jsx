@@ -1,25 +1,30 @@
-import { Helmet } from "react-helmet";
+import { useEffect } from "react";
 
 const image = "https://fundedlake.com/assets/logo-fundedlake.webp";
 
 export default function Seo({ title, description, path }) {
-  const url = `https://fundedlake.com${path}`;
-  return (
-    <Helmet>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <link rel="canonical" href={url} />
-      <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="FundedLake" />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:url" content={url} />
-      <meta property="og:image" content={image} />
-      <meta property="og:image:alt" content="FundedLake logo" />
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
-    </Helmet>
-  );
+  useEffect(() => {
+    const url = `https://fundedlake.com${path}`;
+    document.title = title;
+    const set = (selector, tag, attributes) => {
+      let element = document.head.querySelector(selector);
+      if (!element) {
+        element = document.createElement(tag);
+        document.head.appendChild(element);
+      }
+      for (const [name, value] of Object.entries(attributes)) element.setAttribute(name, value);
+    };
+    set('meta[name="description"]', 'meta', { name: 'description', content: description });
+    set('link[rel="canonical"]', 'link', { rel: 'canonical', href: url });
+    for (const [property, content] of Object.entries({
+      'og:type': 'website', 'og:site_name': 'FundedLake', 'og:title': title,
+      'og:description': description, 'og:url': url, 'og:image': image,
+      'og:image:alt': 'FundedLake logo',
+    })) set(`meta[property="${property}"]`, 'meta', { property, content });
+    for (const [name, content] of Object.entries({
+      'twitter:card': 'summary', 'twitter:title': title,
+      'twitter:description': description, 'twitter:image': image,
+    })) set(`meta[name="${name}"]`, 'meta', { name, content });
+  }, [title, description, path]);
+  return null;
 }

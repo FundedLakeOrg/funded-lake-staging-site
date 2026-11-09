@@ -49,7 +49,7 @@ function StandardProPriceTab() {
                         <TabPanel className="5K">
                             <TwoStepPriceCard />
                             <PriceTableBtns offerDiscountBtn={true}
-                                limitedTime={true} goalDiscount="20%" couponCode="FL20"  newAmount="$35" accountAmt="5K" getFundedLink="https://fundedlakedashboard.propaccount.com/en/challenges?planid=291" />
+                                limitedTime={true} goalDiscount="20%" couponCode="FL20"  newAmount="$35" accountAmt="5K" getFundedLink="https://fundedlakedashboard.propaccount.com/en/challenges/purchase?planId=173" />
                         </TabPanel>
                         <TabPanel className="10K">
                             <TwoStepPriceCard />

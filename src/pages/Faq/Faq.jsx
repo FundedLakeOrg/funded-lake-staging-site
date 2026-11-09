@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { Helmet } from "react-helmet";
+import Seo from "../../components/Seo";
 import StepOneFaq from "./components/StepOneFaq";
 import InstantFundingFaq from "./components/InstantFundingFaq";
 import GeneralQuestionFaq from "./components/GeneralQuestionFaq";
@@ -21,43 +21,7 @@ function Faq() {
 
   return (
     <>
-      <Helmet>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="pingback" href="https://fundedlake.com/xmlrpc.php" />
-        <meta
-          name="robots"
-          content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
-        />
-        <title>FAQs - FundedLake</title>
-        <meta
-          name="description"
-          content="FundedLake is a prop trading firm offering instant funding up to $400K, fast payouts, and flexible rules for traders of all levels."
-        />
-        <link rel="canonical" href="https://fundedlake.com/faqs/" />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:type" content="article" />
-        <meta property="og:title" content="FAQs - FundedLake" />
-        <meta
-          property="og:description"
-          content="FundedLake is a prop trading firm offering instant funding up to $400K, fast payouts, and flexible rules for traders of all levels."
-        />
-        <meta property="og:url" content="https://fundedlake.com/faqs/" />
-        <meta property="og:site_name" content="FundedLake" />
-        <meta
-          property="article:modified_time"
-          content="2025-05-31T17:13:31+00:00"
-        />
-        <meta
-          property="og:image"
-          content="https://fundedlake.com/wp-content/uploads/2025/04/favicon.png"
-        />
-        <meta property="og:image:width" content="512" />
-        <meta property="og:image:height" content="512" />
-        <meta property="og:image:type" content="image/png" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:label1" content="Est. reading time" />
-        <meta name="twitter:data1" content="42 minutes" />
-      </Helmet>
+      <Seo title="Trading Challenge FAQs | FundedLake" description="Find answers to FundedLake questions about challenge rules, drawdown, profit targets, funding, payouts and trading accounts." path="/faqs/" />
       <div className="Faq-wrapper overflow-hidden">
         <div className="searchBox relative flex flex-col items-center justify-center lg:pt-42 lg:pb-3 md:pt-32 md:pb-3 pt-24 pb-2 md:px-0 px-4 overflow-hidden">
           <div className="tg-bg-gradient d-block navy-bg-gradient"></div>
@@ -76,10 +40,10 @@ function Faq() {
             alt=""
           />
           <div className="flex flex-wrap w-full flex-col items-center text-center relative z-10">
-            <h2 className="md:leading-[1.1em] font-bold title-font mb-2 text-white">
+            <h1 className="md:leading-[1.1em] font-bold title-font mb-2 text-white">
               <span className="text-white">FREQUENTLY ASKED</span>
               <br /> QUESTIONS
-            </h2>
+            </h1>
             <p className="text-white md:text-xl text-base md:max-w-[800px] w-full">
               Popular questions about FUNDEDLAKE
             </p>

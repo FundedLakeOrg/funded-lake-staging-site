@@ -1,0 +1,50 @@
+name: Deploy FundedLake to Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fundedlake-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Install SFTP helper
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
+      - name: Verify Hostinger host key and deploy
+        env:
+          HOST: '217.196.54.241'
+          USER: 'u898428611'
+          SSHPASS: ${{ secrets.HOSTINGER_SSH_PASSWORD }}
+          EXPECTED_FINGERPRINT: ${{ secrets.HOSTINGER_SSH_FINGERPRINT }}
+          PORT: '65002'
+        run: |
+          set -euo pipefail
+          test -n "$SSHPASS" && test -n "$EXPECTED_FINGERPRINT"
+          ssh-keyscan -T 10 -t ed25519 -p "$PORT" "$HOST" > "$RUNNER_TEMP/hostinger_known_hosts" 2>/dev/null
+          ACTUAL_FINGERPRINT=$(ssh-keygen -lf "$RUNNER_TEMP/hostinger_known_hosts" -E sha256 | awk '{print $2}')
+          if [ "$ACTUAL_FINGERPRINT" != "$EXPECTED_FINGERPRINT" ]; then
+            echo 'Hostinger SSH host fingerprint does not match; deployment stopped.' >&2
+            exit 1
+          fi
+          DEST="/home/$USER/domains/fundedlake.com/public_html"
+          SCP_OPTS=(-P "$PORT" -o "UserKnownHostsFile=$RUNNER_TEMP/hostinger_known_hosts" -o StrictHostKeyChecking=yes)
+          for entry in dist/*; do
+            [ "$entry" = dist/index.html ] && continue
+            sshpass -e scp "${SCP_OPTS[@]}" -r "$entry" "$USER@$HOST:$DEST/"
+          done
+          sshpass -e scp "${SCP_OPTS[@]}" dist/index.html "$USER@$HOST:$DEST/index.html"
